@@ -1,16 +1,16 @@
 import { useContext, useEffect } from "react";
 import { PokemonContext } from "../contexts/PokemonContext";
-import { PokemonModel } from "../models/PokemonModel";
-import { ListPokemons } from "../services/pokedexService";
 
 export function usePokedex() {
     const context = useContext(PokemonContext);
 
-    if (context === undefined) {
+    if (!context) {
         throw new Error("Context must be used within a Provider");
     }
 
     useEffect(() => {
+        console.log("usePokedex hook");
+        
         if (context.pokemons.length === 0) {
             context.LoadPokemons(0);
         }

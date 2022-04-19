@@ -6,31 +6,33 @@ import { PokemonModel } from '../../models/PokemonModel';
 import { ActivityIndicator, Image, Text, View } from 'react-native';
 import { usePokedex } from '../../hooks/usePokedex';
 import { PokeTypes } from '../PokeTypes';
+import { PokemonContextType } from '../../contexts/PokemonContext';
 
 type Props = {
-    pokemon: PokemonModel
+    pokemon: PokemonModel,
+    pokedex: PokemonContextType
 };
 
-export function PokemonCard({ pokemon }: Props) {
+export function PokemonCard({ pokemon, pokedex }: Props) {
 
     const colors = theme.pokemonTypeColors;
 
     const [isLoading, setIsLoading] = useState(true);
 
-    const pokedex = usePokedex();
+    // const pokedex = usePokedex();
 
     const [pokemonDetail, setPokemonDetail] = useState<PokemonModel>({} as PokemonModel);
 
 
     useEffect(() => {
-        
+
         (async () => {
-        pokedex.PokemonDetail(pokemon.id)
-            .then(data => {
-                pokemon = data;
-                setPokemonDetail(data);
-                setIsLoading(false);
-            });
+            pokedex.PokemonDetail(pokemon.id)
+                .then(data => {
+                    pokemon = data;
+                    setPokemonDetail(data);
+                    setIsLoading(false);
+                });
         })();
 
     }, []);
@@ -46,7 +48,7 @@ export function PokemonCard({ pokemon }: Props) {
                 end={{ x: 1, y: 4 }}
             >
                 <View style={[styles.halfBox, styles.boxImage]}>
-                    
+
                     {
                         isLoading
                             ? <ActivityIndicator style={styles.image} size="large" color="#fff" />
@@ -58,7 +60,7 @@ export function PokemonCard({ pokemon }: Props) {
                     <View style={styles.titleBox}>
                         <Text style={styles.title}>{pokemon.name}</Text>
                     </View>
-                    { PokeTypes(pokemonDetail) }
+                    {PokeTypes(pokemonDetail)}
                 </View>
 
                 <Text style={styles.textFullID}>

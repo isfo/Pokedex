@@ -6,7 +6,7 @@ import { GetPokemon, ListPokemons } from "../services/pokedexService";
 import { ListApi, RequestType } from "../services/RequestService";
 
 
-type PokemonContextType = {
+export type PokemonContextType = {
     pokemons: PokemonModel[];
     loadedPages: number[];
     isLoading: boolean;
@@ -47,24 +47,23 @@ export const PokemonContextProvider = (props: any) => {
         if (loadedPages.includes(page) && !force) {
             return;
         }
+        try {
+            const data = await ListPokemons(page);
 
-        ListPokemons(page)
-            .then(data => {
-
-                const loadedPokemons = data.map(item => {
-                    item.fullid = item.id.toString().padStart(3, '0');
-                    item.fully = false;
-                    return item;
-                })
-
-                setPokemons([...pokemons, ...loadedPokemons as PokemonModel[]]);
-                setLoadedPages([...loadedPages, currentPage]);
-                setIsLoading(false);
+            const loadedPokemons = data.map(item => {
+                item.fullid = item.id.toString().padStart(3, '0');
+                item.fully = false;
+                return item;
             })
-            .catch(err => {
-                console.log(err);
-                setIsLoading(false);
-            });
+
+            setPokemons([...pokemons, ...loadedPokemons as PokemonModel[]]);
+            setLoadedPages([...loadedPages, currentPage]);
+            setIsLoading(false);
+        }
+        catch (err) {
+            console.log(err);
+            setIsLoading(false);
+        };
     }
 
     async function PokemonDetail(id: string): Promise<PokemonModel> {

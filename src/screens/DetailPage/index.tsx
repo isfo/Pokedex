@@ -1,7 +1,7 @@
-import { useRoute, useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { LinearGradient } from "expo-linear-gradient";
 import React, { useEffect, useState } from "react";
-import { Text, View, Image, Button, TouchableHighlight } from "react-native";
+import { Image, Text, View } from "react-native";
 import { PokemonAbout } from "../../components/PokemonAbout";
 import { PokemonStats } from "../../components/PokemonStats";
 import { PokeTypes } from "../../components/PokeTypes";
@@ -13,10 +13,9 @@ import { styles } from "./styles";
 
 export function DetailPage(route: any) {
     const params = useRoute<RootRouteProps<'DetailPage'>>()
-    const pokedex = usePokedex();
     const navigation = useNavigation<propsStack>();
     const [pokemonDetail, setPokemonDetail] = useState<PokemonModel>({} as PokemonModel);
-    const pokemon = params.params.pokemon;
+    const { pokemon, pokedex } = params.params;
 
     const colors = theme.pokemonTypeColors;
 

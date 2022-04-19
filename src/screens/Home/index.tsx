@@ -12,10 +12,11 @@ import { PokemonModel } from "../../models/PokemonModel";
 
 
 export function Home() {
-    const { pokemons, LoadPokemons, isLoading } = usePokedex();
+    const pokedex = usePokedex();
+    const { pokemons, LoadPokemons, isLoading } = pokedex;
 
     const loadResources = async () => {
-        LoadPokemons();
+        await LoadPokemons();
     }
 
     const renderFooter = () => {
@@ -31,7 +32,7 @@ export function Home() {
     const navigation = useNavigation<propsStack>();
 
     function GoToDetail(item: PokemonModel) {
-        navigation.navigate('DetailPage', { pokemon: item });
+        navigation.navigate('DetailPage', { pokemon: item, pokedex: pokedex });
     }
 
     return (
@@ -45,7 +46,7 @@ export function Home() {
                 renderItem={({ item }) => {
                     return (
                         <Pressable onPress={() => { GoToDetail(item) }}>
-                            <PokemonCard key={item.id} pokemon={item} />
+                            <PokemonCard key={item.id} pokemon={item} pokedex={pokedex} />
                         </Pressable>
                     );
                 }}
