@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
         fontSize: 38,
         textAlign: 'center',
         color: "yellow", 
-        textShadowColor: 'black', 
+        textShadowColor: 'blue', 
         textShadowOffset: { width: 0, height: 0 },
         textShadowRadius: 5, 
         fontWeight: '800'

@@ -37,7 +37,7 @@ export function Home() {
     return (
         <>
             <View style={styles.header}>
-                <Text style={styles.headerText}>Pokedex</Text>
+                <Text style={styles.headerText}>Pókedex</Text>
             </View>
             <FlatList
                 data={pokemons}
